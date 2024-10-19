@@ -397,13 +397,13 @@ win_options(const struct win *w) {
 
 /// Check if the window has changed in size. Border width is
 /// not considered.
-static inline bool win_geometry_changed(struct win_geometry a, struct win_geometry b) {
+static inline bool win_size_changed(struct win_geometry a, struct win_geometry b) {
 	return a.width != b.width || a.height != b.height;
 }
 
 /// Check if the window position has changed.
 static inline bool win_position_changed(struct win_geometry a, struct win_geometry b) {
-	if (win_geometry_changed(a, b)) {
+	if (win_size_changed(a, b)) {
 		return false;
 	}
 
