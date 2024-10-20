@@ -211,6 +211,7 @@ static inline void attr_unused free_x_connection(struct x_connection *c) {
 /// Note this function doesn't take ownership of the Display, the caller is still
 /// responsible for closing it after `free_x_connection` is called.
 void x_connection_init(struct x_connection *c, Display *dpy);
+void x_connection_init_xcb(struct x_connection *c, xcb_connection_t *conn, int screen);
 
 /**
  * Get a specific attribute of a window.
@@ -241,15 +242,6 @@ x_get_prop(const struct x_connection *c, xcb_window_t wid, xcb_atom_t atom, int 
 
 /// Get the type, format and size in bytes of a window's specific attribute.
 winprop_info_t x_get_prop_info(const struct x_connection *c, xcb_window_t w, xcb_atom_t atom);
-
-/// Discard all X events in queue or in flight. Should only be used when the server is
-/// grabbed
-static inline void x_discard_events(struct x_connection *c) {
-	xcb_generic_event_t *e;
-	while ((e = xcb_poll_for_event(c->c))) {
-		free(e);
-	}
-}
 
 /**
  * Get the value of a type-<code>xcb_window_t</code> property of a window.

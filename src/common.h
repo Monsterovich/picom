@@ -115,7 +115,7 @@ typedef struct session {
 	xcb_window_t debug_window;
 	/// The backend data the root pixmap bound to
 	image_handle root_image;
-	/// The root pixmap generation, incremented everytime
+	/// The root pixmap generation, incremented every time
 	/// the root pixmap changes
 	uint64_t root_image_generation;
 	/// A region of the size of the screen.
@@ -275,39 +275,6 @@ extern session_t *ps_g;
 void ev_xcb_error(session_t *ps, xcb_generic_error_t *err);
 
 // === Functions ===
-
-/**
- * Subtracting two struct timespec values.
- *
- * Taken from glibc manual.
- *
- * Subtract the `struct timespec' values X and Y,
- * storing the result in RESULT.
- * Return 1 if the difference is negative, otherwise 0.
- */
-static inline int
-timespec_subtract(struct timespec *result, struct timespec *x, struct timespec *y) {
-	/* Perform the carry for the later subtraction by updating y. */
-	if (x->tv_nsec < y->tv_nsec) {
-		long nsec = (y->tv_nsec - x->tv_nsec) / NS_PER_SEC + 1;
-		y->tv_nsec -= NS_PER_SEC * nsec;
-		y->tv_sec += nsec;
-	}
-
-	if (x->tv_nsec - y->tv_nsec > NS_PER_SEC) {
-		long nsec = (x->tv_nsec - y->tv_nsec) / NS_PER_SEC;
-		y->tv_nsec += NS_PER_SEC * nsec;
-		y->tv_sec -= nsec;
-	}
-
-	/* Compute the time remaining to wait.
-	   tv_nsec is certainly positive. */
-	result->tv_sec = x->tv_sec - y->tv_sec;
-	result->tv_nsec = x->tv_nsec - y->tv_nsec;
-
-	/* Return 1 if result is negative. */
-	return x->tv_sec < y->tv_sec;
-}
 
 /**
  * Get current time in struct timeval.
