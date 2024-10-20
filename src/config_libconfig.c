@@ -765,8 +765,8 @@ resolve_include(config_t *cfg, const char *include_dir, const char *path, const 
 	return ret;
 }
 
-bool parse_config_libconfig(options_t *opt, const char *config_file, 
-	config_t *release_cfg) { /*NOLINT(readability-function-cognitive-complexity)*/
+bool parse_config_libconfig(options_t *opt, const char *config_file,
+                            config_t *release_cfg) { /*NOLINT(readability-function-cognitive-complexity)*/
 	char *path = NULL;
 	FILE *f;
 	config_t cfg;
