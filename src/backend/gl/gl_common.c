@@ -26,6 +26,19 @@ void gl_prepare(backend_t *base, const region_t *reg attr_unused) {
 	glBeginQuery(GL_TIME_ELAPSED, gd->frame_timing[gd->current_frame_timing]);
 }
 
+bool gl_resume(backend_t *base, session_t *ps) {
+	GLubyte pixels[ps->root_width * ps->root_height * 3];
+	glReadPixels(0, 0, ps->root_width, ps->root_height, GL_RGB, GL_UNSIGNED_BYTE, &pixels);
+
+	for (unsigned i = 0; i < sizeof(pixels); i++) {
+		if (pixels[i] != 0) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
 GLuint gl_create_shader(GLenum shader_type, const char *shader_str) {
 	log_trace("===\n%s\n===", shader_str);
 

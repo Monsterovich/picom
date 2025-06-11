@@ -537,6 +537,7 @@ const struct backend_operations glx_ops = {
     .deinit = glx_deinit,
     .root_change = gl_root_change,
     .prepare = gl_prepare,
+    .resume = gl_resume,
     .buffer_age = glx_buffer_age,
     .last_render_time = gl_last_render_time,
     .create_blur_context = gl_create_blur_context,

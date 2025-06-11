@@ -370,6 +370,7 @@ const struct backend_operations egl_ops = {
     .deinit = egl_deinit,
     .root_change = gl_root_change,
     .prepare = gl_prepare,
+    .resume = gl_resume,
     .buffer_age = egl_buffer_age,
     .last_render_time = gl_last_render_time,
     .create_blur_context = gl_create_blur_context,

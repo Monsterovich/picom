@@ -192,9 +192,8 @@ struct backend_operations {
 	void (*pause)(backend_t *backend_data, session_t *ps);
 
 	/// Called before rendering is resumed
-	///
-	/// Optional, not yet used
-	void (*resume)(backend_t *backend_data, session_t *ps);
+	/// Returns true if anything was rendered.
+	bool (*resume)(backend_t *backend_data, session_t *ps);
 
 	/// Called when root window size changed. All existing image data ever
 	/// returned by this backend should remain valid after this call

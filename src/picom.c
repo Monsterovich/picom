@@ -1170,11 +1170,7 @@ static bool redirect_start(session_t *ps) {
 	assert(!ps->redirected);
 	log_debug("Redirecting the screen.");
 
-	// Map overlay window. Done firstly according to this:
-	// https://bugzilla.gnome.org/show_bug.cgi?id=597014
-	if (ps->overlay != XCB_NONE) {
-		xcb_map_window(ps->c.c, ps->overlay);
-	}
+	ps->has_redirect = true;
 
 	bool success = XCB_AWAIT_VOID(xcb_composite_redirect_subwindows, &ps->c,
 	                              ps->c.screen_info->root, session_redirection_mode(ps));
@@ -1562,6 +1558,20 @@ static void exit_enable(EV_P attr_unused, ev_signal *w, int revents attr_unused)
 static void draw_callback_impl(EV_P_ session_t *ps, int revents attr_unused) {
 	assert(!ps->backend_busy);
 	assert(ps->render_queued);
+
+	if (ps->overlay != XCB_NONE && ps->has_redirect) {
+		if (ps->backend_data->ops.resume != NULL) {
+			if (ps->backend_data->ops.resume(ps->backend_data, ps)) {
+				ps->has_redirect = false;
+
+				xcb_map_window(ps->c.c, ps->overlay);
+			}
+		} else {
+			ps->has_redirect = false;
+
+			xcb_map_window(ps->c.c, ps->overlay);
+		}
+	}
 
 	struct timespec now;
 	int64_t draw_callback_enter_us;

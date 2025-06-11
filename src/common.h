@@ -137,6 +137,8 @@ typedef struct session {
 	uint64_t next_render;
 	/// Whether we can perform frame pacing.
 	bool frame_pacing;
+	/// Indicates that compositing has been initialized
+	bool has_redirect;
 	/// Vblank event scheduler
 	struct vblank_scheduler *vblank_scheduler;
 

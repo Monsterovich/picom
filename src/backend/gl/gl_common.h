@@ -122,6 +122,7 @@ typedef struct session session_t;
 	{ .prog = 0, .unifm_opacity = -1, .unifm_invert_color = -1, .unifm_tex = -1, }
 
 void gl_prepare(backend_t *base, const region_t *reg);
+bool gl_resume(backend_t *base, session_t *ps);
 /// Convert a mask formed by a collection of rectangles to OpenGL vertex and texture
 /// coordinates.
 ///
